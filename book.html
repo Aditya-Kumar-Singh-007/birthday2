@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Dear</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      min-height: 100dvh;
+      perspective: 1000px;
+      font: 1em/1.4 "Poppins", sans-serif;
+      overflow: hidden;
+      color: hsl(0, 0%, 3%);
+      background-image: radial-gradient(circle farthest-corner at 50% 50%,
+          hsl(195, 11%, 93%) 30%,
+          hsl(150, 15%, 95%) 100%);
+    }
+
+    .book {
+      position: relative;
+      display: flex;
+      margin: auto;
+      width: 42cqmin;
+      pointer-events: none;
+      transform-style: preserve-3d;
+      transition: translate 1s;
+      translate: calc(min(var(--c), 1) * 50%) 0%;
+      rotate: 1 0 0 30deg;
+    }
+
+    .page {
+      --thickness: 4;
+      flex: none;
+      display: flex;
+      width: 100%;
+      font-size: 2.2cqmin;
+      pointer-events: all;
+      user-select: none;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition: transform 1s,
+        rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+      translate: calc(var(--i) * -100%) 0px 0px;
+      transform: translateZ(calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * 0.23cqmin)));
+      rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+    }
+
+    .front,
+    .back {
+      position: relative;
+      flex: none;
+      width: 100%;
+      backface-visibility: hidden;
+      overflow: hidden;
+      background-color: #fff;
+      translate: 0px;
+    }
+
+    .back {
+      translate: -100% 0;
+      rotate: 0 1 0 180deg;
+    }
+
+    .book {
+      counter-reset: page -1;
+    }
+
+    .book a {
+      color: inherit;
+    }
+
+    .page {
+      box-shadow: 0em 0.5em 1em -0.2em #00000020;
+    }
+
+    .front,
+    .back {
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: space-between;
+      padding: 2em;
+      border: 1px solid #0002;
+    }
+
+    .front:has(img),
+    .back:has(img) {
+      padding: 0;
+    }
+
+    .front img,
+    .back img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: 
+      url('pageback.jpg') center/cover no-repeat,
+      linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .front::after,
+    .back::after {
+      position: absolute;
+      bottom: 1em;
+      counter-increment: page;
+      content: counter(page) ".";
+      font-size: 0.8em;
+    }
+
+    .cover::after {
+      content: "";
+    }
+
+    .front::after {
+      right: 1em;
+    }
+
+    .front {
+      background: linear-gradient(to left, #f7f7f7 80%, #eee 100%);
+      border-radius: 0.1em 0.5em 0.5em 0.1em;
+    }
+
+    .back::after {
+      left: 1em;
+    }
+
+    .back {
+      background-image: linear-gradient(to right, #f7f7f7 80%, #eee 100%);
+      border-radius: 0.5em 0.1em 0.1em 0.5em;
+    }
+
+    .cover {
+  background: url("./BIRTHDAYFRONT.jpg") center/cover no-repeat;
+  color: hsl(0, 89%, 35%); /* You can keep or change this for text color */
+}
+  
+
+    h1,
+    h2,
+    h3 {
+      margin-bottom: 1px;
+      color: hsl(0, 94%, 48%);
+    }
+
+    p {
+      margin-top: 1px;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      color: hsl(0, 100%, 30%);
+    }
+
+    .front,
+    .back {
+      padding: 1.5em;
+      color: hsl(0, 100%, 30%);
+    }
+
+    .book {
+      width: 40cqmin;
+    }
+
+    .page {
+      font-size: 2cqmin;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .front,
+    .back {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 1.5em;
+    }
+
+    h2 {
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    body {
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font: 1em/1.4 "Poppins", sans-serif;
+  overflow: hidden;
+  color: hsl(180 68% 5%);
+  background: url('bookback1.jpg') center/cover no-repeat, 
+              linear-gradient(to right, #ff7eb9, #ff65a3, #ff165d);
+  background-blend-mode: overlay;
+  background-size: cover;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Emoji Animation */
+    .emoji {
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0;
+      animation: floatEmojis 6s ease-in-out infinite;
+    }
+
+    @keyframes floatEmojis {
+      0% {
+        transform: translateY(100px);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(-100px) rotate(20deg);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translateY(100px);
+        opacity: 1;
+      }
+    }
+
+    /* Add random timing for each emoji */
+    .emoji:nth-child(1) {
+      animation-delay: 0s;
+      left: 10%;
+    }
+
+    .emoji:nth-child(2) {
+      animation-delay: 1s;
+      left: 20%;
+    }
+
+    .emoji:nth-child(3) {
+      animation-delay: 2s;
+      left: 30%;
+    }
+
+    .emoji:nth-child(4) {
+      animation-delay: 3s;
+      left: 1%;
+    }
+
+    .emoji:nth-child(5) {
+      animation-delay: 4s;
+      left: 9%;
+    }
+
+    .emoji:nth-child(6) {
+      animation-delay: 5s;
+      left: 17%;
+    }
+
+    .emoji:nth-child(7) {
+      animation-delay: 6s;
+      left: 26%;
+    }
+
+    .emoji:nth-child(8) {
+      animation-delay: 7s;
+      left: 35%;
+    }
+
+    .emoji:nth-child(9) {
+      animation-delay: 8s;
+      left: 44%;
+    }
+    .emoji:nth-child(10) {
+      animation-delay: 9s;
+      left: 51%;
+    }
+    .emoji:nth-child(11) {
+      animation-delay: 10s;
+      left: 60%;
+    }
+    .emoji:nth-child(12) {
+      animation-delay: 11s;
+      left: 69%;
+    }
+    .emoji:nth-child(13) {
+      animation-delay: 12s;
+      left: 78%;
+    }
+    .emoji:nth-child(14) {
+      animation-delay: 13s;
+      left: 87%;
+    }
+    .emoji:nth-child(15) {
+      animation-delay: 14s;
+      left: 96%;
+    }
+    
+  </style>
+</head>
+
+<body>
+ <!-- Background Music -->
+<audio id="background-music" loop>
+  <source src="audio.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  const audio = document.getElementById('background-music');
+
+  // Play audio when the user interacts with the page
+  document.addEventListener('click', () => {
+    audio.play();
+  }, { once: true }); // Only trigger once
+</script>
+
+  <div class="book">
+    <!--1 page-->
+    <div class="page">
+      <div class="front cover">
+      </div>
+      <div class="back">
+        <h2 class="title" style="text-align: center;">Happy Birthday Sweetu ❤️✨</h2>
+        <p style="text-align: center;font-family: Edu VIC WA NT Hand, cursive;
+        font-optical-sizing: auto;
+        font-weight: normal;
+        font-style: normal;
+        font-size: large;">
+          Happy Birthday to the most amazing person in my life!<br />
+          May your day be filled with love, joy, and all the things that make you smile.<br />
+          You deserve all the happiness in the world.<br />
+          Here's to another year of adventures and memories together!<br />
+          Love you always!<br />
+        </p>
+      </div>
+    </div>
+    <!--2nd page-->
+    <div class="page">
+      <div class="front">
+        <img src=".\face\f25.jpg" alt="Img 1" />
+      </div>
+      <div class="back" id="">
+        <img src=".\content\1.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--4 page-->
+    <div class="page">
+      <div class="front">
+        <img src=".\face\f11.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/2.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--6rd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f15.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/3.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--8 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f29.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/3.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--10 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f24.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/4.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--12 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f23.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/5.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--14 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f31.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/6.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--16 page-->
+    <div class="page">
+      <div class="front">
+        <video src="vid.mp4" controls autoplay muted loop style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></video>
+      </div>
+      <div class="back">
+        <img src="./face/f0.jpeg" alt="Img 1" />
+      </div>
+    </div>
+    <!--18 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f1.png" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f2.png" alt="Img 1" />
+      </div>
+    </div>
+    <!--20 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f3.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f4.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--22 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f5.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f8.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--24 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./content/7.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f9.jpg" alt="Img 1" />
+        
+      </div>
+    </div>
+    <!--26 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f10.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f12.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--28 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f14.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f16.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--30 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f18.1.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f19.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--32nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f21.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f22.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--34 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f27.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./face/f30.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--36nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/f26.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/8.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--38nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./face/mehendi.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/9.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--40 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/2.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/0.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--42nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/1.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/3.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--44nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/4.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/5.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--46nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/8.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/6.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--48nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/11.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/14.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--50nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/17.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/19.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--52nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/20.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/25.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--54nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/28.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/26.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--56nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/30.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/edit.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--58 page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/e1.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/e2.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--60nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/e3.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/e5.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--62nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/e6.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/e7.jpg" alt="Img 1" />
+      </div>
+    </div>
+     <!--64nd page-->
+     <div class="page">
+      <div class="front">
+        <img src="./FINAL/e8.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/e10.jpg" alt="Img 1" />
+      </div>
+    </div>
+     <!--66nd page-->
+     <div class="page">
+      <div class="front">
+        <img src="./FINAL/e11.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/e13.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--68nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/e14.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/e17.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--70nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/e20.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/final1.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--72nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/final3.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./FINAL/final4.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--74nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./FINAL/final2.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/10.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--76nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./spicy/s1.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./spicy/s2.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--78nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./spicy/s3.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./spicy/s4.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--80nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./spicy/s5.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./spicy/s6.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--82nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./spicy/s7.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./spicy/s8.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--84d page-->
+    <div class="page">
+      <div class="front">
+        <img src="./spicy/s9.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/11.jpg" alt="Img 1" />
+      </div>
+    </div>
+    <!--86nd page-->
+    <div class="page">
+      <div class="front">
+        <img src="./content/g0.jpg" alt="Img 1" />
+      </div>
+      <div class="back">
+        <img src="./content/g1.jpg" alt="Img 1" />
+      </div>
+    </div>
+
+    
+
+    <div class="page">
+      <div class="front">
+        <img src="./content/g2.jpg" alt="Img 1" />
+      </div>
+      <div class="back cover">
+        <img src="./content/backcover.jpg" alt="Img 1" />
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Emojis -->
+  <div class="emoji">🎂</div>
+  <div class="emoji">🎉</div>
+  <div class="emoji">🎈</div>
+  <div class="emoji">🥳</div>
+  <div class="emoji">🎁</div>
+  <div class="emoji">🍰</div>
+  <div class="emoji">🧁</div>
+  <div class="emoji">🎊</div>
+  <div class="emoji">🍾</div>
+  <div class="emoji">✨</div>
+  <div class="emoji">🥂</div>
+  <div class="emoji">🪅</div>
+  <script>
+    
+    const flipBook = (elBook) => {
+      elBook.style.setProperty("--c", 0); // Set current page
+      elBook.querySelectorAll(".page").forEach((page, idx) => {
+        page.style.setProperty("--i", idx);
+        page.addEventListener("click", (evt) => {
+          if (evt.target.closest("a")) return;
+          const curr = evt.target.closest(".back") ? idx : idx + 1;
+          elBook.style.setProperty("--c", curr);
+        });
+      });
+    };
+
+    document.querySelectorAll(".book").forEach(flipBook);
+  </script>
+</body>
+
+</html>
